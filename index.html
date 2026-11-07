@@ -95,7 +95,7 @@ footer{padding:50px 20px 90px}
   <p class="eyebrow rv">The Wedding Of</p>
   <h1 class="script rv float" style="margin:14px 0">Rama<br>&amp; Ani</h1>
   <p class="eyebrow rv">Save The Date</p>
-  <p class="date rv">11.11.2026</p>
+  <p class="date rv">03.10.2026</p>
   <div class="count rv" id="count"><div><b>00</b><small>Hari</small></div><div><b>00</b><small>Jam</small></div><div><b>00</b><small>Menit</small></div><div><b>00</b><small>Detik</small></div></div>
 </section>
 
@@ -173,7 +173,7 @@ const $=s=>document.querySelector(s);
 // guest name from ?to=
 function setGuest(){let t=null;try{t=new URLSearchParams(location.search).get('to')}catch(e){}
   if(!t&&location.hash.length>1){try{t=decodeURIComponent(location.hash.slice(1)).replace(/[-_+]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}catch(e){}}
-  $('#guest').textContent=(t&&t.trim())||'Saudara / i'}
+  $('#guest').textContent=(t&&t.trim())||'Ikhwan noufal'}
 setGuest();addEventListener('hashchange',setGuest);
 // petals
 for(let i=0;i<14;i++){const p=document.createElement('span');p.className='petal';p.style.left=Math.random()*100+'%';p.style.animationDuration=6+Math.random()*7+'s';p.style.animationDelay=-Math.random()*8+'s';$('#cover').appendChild(p)}
@@ -193,8 +193,20 @@ $('#env').onclick=openInv;$('#openBtn').onclick=openInv;
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
 function reveal(){document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4)*.08+'s';io.observe(el)})}
 // countdown
-const target=new Date('2026-10-03T08:00:00+07:00').getTime();
-function cd(){let d=Math.max(0,target-Date.now());const v=[864e5,36e5,6e4,1e3].map(u=>{const x=Math.floor(d/u);d-=x*u;return String(x).padStart(2,'0')});document.querySelectorAll('#count b').forEach((b,i)=>b.textContent=v[i])}
+const CONFIG={eventISO:'2026-10-03T08:00:00+07:00'}; // ganti tanggal & jam akad di sini (+07:00 WIB, +08:00 WITA, +09:00 WIT)
+const target=new Date(CONFIG.eventISO).getTime();
+const cEl=$('#count'),offM=(CONFIG.eventISO.match(/([+-])(\d{2}):(\d{2})$/)||[]);
+const offMs=offM[1]?(offM[1]==='-'?-1:1)*(+offM[2]*36e5+ +offM[3]*6e4):0;
+const dayEnd=(Math.floor((target+offMs)/864e5)+1)*864e5-offMs;
+let mode='';
+function msg(m,t){if(mode===m)return;mode=m;cEl.style.display='block';cEl.innerHTML='<p class="serif" style="font-size:1.4rem;max-width:320px;margin:auto;line-height:1.5">'+t+'</p>'}
+function cd(){
+  if(isNaN(target)){cEl.style.display='none';return}
+  const now=Date.now();
+  if(now>=dayEnd){msg('after','Terima kasih atas doa dan kehadiran Bapak/Ibu/Saudara/i di hari bahagia kami.');return}
+  if(now>=target){msg('today','Hari bahagia kami adalah hari ini');return}
+  let d=target-now;const v=[864e5,36e5,6e4,1e3].map(u=>{const x=Math.floor(d/u);d-=x*u;return String(x).padStart(2,'0')});
+  document.querySelectorAll('#count b').forEach((b,i)=>b.textContent=v[i])}
 cd();setInterval(cd,1000);
 // copy
 document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(b.dataset.copy)}catch(e){}const o=b.textContent;b.textContent='Tersalin ✓';setTimeout(()=>b.textContent=o,1600)});
