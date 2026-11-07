@@ -95,7 +95,7 @@ footer{padding:50px 20px 90px}
   <p class="eyebrow rv">The Wedding Of</p>
   <h1 class="script rv float" style="margin:14px 0">Rama<br>&amp; Ani</h1>
   <p class="eyebrow rv">Save The Date</p>
-  <p class="date rv">03.10.2026</p>
+  <p class="date rv">11.11.2026</p>
   <div class="count rv" id="count"><div><b>00</b><small>Hari</small></div><div><b>00</b><small>Jam</small></div><div><b>00</b><small>Menit</small></div><div><b>00</b><small>Detik</small></div></div>
 </section>
 
@@ -173,7 +173,7 @@ const $=s=>document.querySelector(s);
 // guest name from ?to=
 function setGuest(){let t=null;try{t=new URLSearchParams(location.search).get('to')}catch(e){}
   if(!t&&location.hash.length>1){try{t=decodeURIComponent(location.hash.slice(1)).replace(/[-_+]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}catch(e){}}
-  $('#guest').textContent=(t&&t.trim())||'Ikhwan noufal'}
+  $('#guest').textContent=(t&&t.trim())||'Saudara / i'}
 setGuest();addEventListener('hashchange',setGuest);
 // petals
 for(let i=0;i<14;i++){const p=document.createElement('span');p.className='petal';p.style.left=Math.random()*100+'%';p.style.animationDuration=6+Math.random()*7+'s';p.style.animationDelay=-Math.random()*8+'s';$('#cover').appendChild(p)}
