@@ -65,6 +65,13 @@ input,textarea,select{width:100%;font:inherit;padding:12px 14px;margin:6px 0;bor
 #music{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;width:46px;height:46px;border-radius:50%;border:none;background:var(--gold);color:#fff;font-size:1.2rem;cursor:pointer;box-shadow:0 6px 16px #0004;display:none}
 #music.spin{animation:sp 4s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 footer{padding:50px 20px 90px}
+.map{position:relative;display:block;height:260px;border-radius:16px;overflow:hidden;border:1px solid #b8924f66;box-shadow:0 10px 30px #0002;background:#e9e3d3;text-decoration:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .map{background:#39342b}}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-34px 0 0 -17px;background:#c0392b;border-radius:50% 50% 50% 0;transform:rotate(-45deg);animation:bounce 1.4s ease-in-out infinite;box-shadow:0 6px 10px #0004}
+.pin::after{content:"";position:absolute;inset:9px;background:#fff;border-radius:50%}
+@keyframes bounce{50%{margin-top:-46px}}
+.map .tag{position:absolute;left:12px;right:12px;bottom:12px;background:var(--card);color:var(--ink);border-radius:10px;padding:10px 12px;font-size:.75rem;line-height:1.5;text-align:left;box-shadow:0 4px 12px #0003}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
 </style></head>
 <body class="lock">
@@ -119,6 +126,16 @@ footer{padding:50px 20px 90px}
   <h2 class="script rv">Wedding Event</h2>
   <div class="card rv"><h3>Akad Nikah</h3><p><b>Sabtu, 03 Oktober 2026</b><br>08:00 WIB – Selesai</p><p class="eyebrow">Lokasi Acara</p><p>Kediaman Mempelai Wanita, Kp. Nangela RT 003/RW 002, Desa Jagabita, Kec. Parungpanjang, Kab. Bogor</p><a class="btn ghost" style="display:inline-block;text-decoration:none;margin-top:8px" href="https://maps.app.goo.gl/ghe5EALN1jrw78Zh7" target="_blank" rel="noopener">Google Maps</a></div>
   <div class="card rv"><h3>Resepsi</h3><p><b>Sabtu, 03 Oktober 2026</b><br>10:00 WIB – Selesai</p><p class="eyebrow">Lokasi Acara</p><p>Kediaman Mempelai Wanita, Kp. Nangela RT 003/RW 002, Desa Jagabita, Kec. Parungpanjang, Kab. Bogor</p><a class="btn ghost" style="display:inline-block;text-decoration:none;margin-top:8px" href="https://maps.app.goo.gl/ghe5EALN1jrw78Zh7" target="_blank" rel="noopener">Google Maps</a></div>
+</section>
+
+<section style="padding-top:10px">
+  <p class="eyebrow rv">Peta Lokasi</p><h2 class="script rv">Google Maps</h2>
+  <a class="map rv" href="https://maps.app.goo.gl/ghe5EALN1jrw78Zh7" target="_blank" rel="noopener" aria-label="Buka lokasi di Google Maps">
+    <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice"><rect width="400" height="260" fill="none"/><path d="M0 70 Q120 90 220 60 T400 80" stroke="#fff" stroke-opacity=".85" stroke-width="14" fill="none"/><path d="M130 0 Q150 120 110 260" stroke="#fff" stroke-opacity=".85" stroke-width="12" fill="none"/><path d="M0 190 Q200 150 400 200" stroke="#f3d58a" stroke-width="10" fill="none"/><path d="M290 0 L260 260" stroke="#fff" stroke-opacity=".7" stroke-width="8" fill="none"/><rect x="160" y="100" width="70" height="40" rx="6" fill="#a9c98f" opacity=".7"/><rect x="300" y="110" width="70" height="60" rx="6" fill="#a9c98f" opacity=".7"/><circle cx="200" cy="130" r="34" fill="#c0392b" opacity=".15"/></svg>
+    <span class="pin"></span>
+    <span class="tag"><b>Kediaman Mempelai Wanita</b><br>Kp. Nangela RT 003/RW 002, Desa Jagabita, Kec. Parungpanjang, Kab. Bogor</span>
+  </a>
+  <p style="margin-top:18px"><a class="btn" style="display:inline-block;text-decoration:none" href="https://maps.app.goo.gl/ghe5EALN1jrw78Zh7" target="_blank" rel="noopener">Buka di Google Maps</a></p>
 </section>
 
 <section class="alt"><div>
