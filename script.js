@@ -8,37 +8,54 @@ if (recipient) {
 
 const opening = document.getElementById("opening");
 const mainContent = document.getElementById("mainContent");
-const music = document.getElementById("weddingMusic");
 const musicToggle = document.getElementById("musicToggle");
+let youtubePlayer = null;
+let youtubeReady = false;
+let playWhenReady = false;
+
+// YouTube IFrame Player API: plays the selected song after the visitor opens the invitation.
+window.onYouTubeIframeAPIReady = function () {
+  youtubePlayer = new YT.Player("youtubeMusicPlayer", {
+    events: {
+      onReady: () => {
+        youtubeReady = true;
+        if (playWhenReady) youtubePlayer.playVideo();
+      },
+      onStateChange: event => {
+        const playing = event.data === YT.PlayerState.PLAYING;
+        musicToggle.classList.toggle("playing", playing);
+        musicToggle.setAttribute("aria-label", playing ? "Jeda musik" : "Putar musik");
+      }
+    }
+  });
+};
+function playWeddingSong() {
+  if (youtubeReady && youtubePlayer) youtubePlayer.playVideo();
+  else playWhenReady = true;
+}
+function pauseWeddingSong() {
+  playWhenReady = false;
+  if (youtubeReady && youtubePlayer) youtubePlayer.pauseVideo();
+}
 
 document.getElementById("openInvitation").addEventListener("click", async () => {
   opening.classList.add("closed");
   mainContent.classList.remove("locked");
   document.body.style.overflow = "";
-  try {
-    await music.play();
-    musicToggle.classList.add("playing");
-    musicToggle.setAttribute("aria-label", "Jeda musik");
-  } catch (e) {
-    // Browser may block playback; visitor can use the music button.
-  }
+  playWeddingSong();
   setTimeout(() => opening.remove(), 1000);
 });
 
-musicToggle.addEventListener("click", async () => {
-  if (music.paused) {
-    try {
-      await music.play();
-      musicToggle.classList.add("playing");
-      musicToggle.setAttribute("aria-label", "Jeda musik");
-    } catch (e) { showToast("Tambahkan file musik di assets/music.mp3"); }
-  } else {
-    music.pause();
-    musicToggle.classList.remove("playing");
-    musicToggle.setAttribute("aria-label", "Putar musik");
+musicToggle.addEventListener("click", () => {
+  if (!youtubeReady || !youtubePlayer) {
+    playWhenReady = true;
+    showToast("Pemutar lagu sedang disiapkan. Coba tekan sekali lagi.");
+    return;
   }
+  const state = youtubePlayer.getPlayerState();
+  if (state === YT.PlayerState.PLAYING || state === YT.PlayerState.BUFFERING) pauseWeddingSong();
+  else playWeddingSong();
 });
-music.addEventListener("ended", () => musicToggle.classList.remove("playing"));
 
 const target = new Date("2026-11-22T09:00:00+07:00").getTime();
 function updateCountdown() {

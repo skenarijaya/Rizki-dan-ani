@@ -22,3 +22,5 @@ Template undangan digital statis berbasis HTML, CSS, dan JavaScript. Siap untuk 
 - Data undangan telah diisi untuk Ani & Rama: Minggu, 22 November 2026. Akad 09.00 WIB dan resepsi 10.00 WIB.
 
 Alamat pengiriman kado belum dicantumkan, sehingga tidak ditampilkan. Barcode/QR pembayaran tidak disertakan karena belum ada file QR resmi yang diberikan.
+
+MUSIK PENGIRING: Safira Inema - Ketaton Cerita, diputar melalui YouTube IFrame Player. Pengunjung dapat memutar/jeda dengan tombol musik atau pemutar video di bagian footer. Koneksi internet diperlukan; autoplay dapat dibatasi oleh browser, sehingga pengunjung mungkin perlu menekan tombol putar.
