@@ -40,7 +40,7 @@ musicToggle.addEventListener("click", async () => {
 });
 music.addEventListener("ended", () => musicToggle.classList.remove("playing"));
 
-const target = new Date("2026-12-28T12:00:00+07:00").getTime();
+const target = new Date("2026-11-22T09:00:00+07:00").getTime();
 function updateCountdown() {
   let distance = target - Date.now();
   if (distance < 0) distance = 0;
@@ -96,7 +96,7 @@ document.querySelectorAll(".copy-btn").forEach(button => {
   button.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(button.dataset.copy);
-      showToast("Nomor rekening berhasil disalin");
+      showToast("Nomor berhasil disalin");
     } catch(e) { showToast("Tidak dapat menyalin otomatis"); }
   });
 });
