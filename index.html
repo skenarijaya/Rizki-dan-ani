@@ -124,7 +124,7 @@
         <label>Jumlah tamu<select name="guests"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
         <label>Ucapan & doa<textarea name="message" rows="4" maxlength="500" placeholder="Tuliskan ucapan dan doa..."></textarea></label>
         <button class="gold-btn full" type="submit">KIRIM KONFIRMASI</button>
-        <p class="form-note" id="formNote">Demo: data tersimpan di browser ini. Hubungkan Supabase untuk penyimpanan online.</p>
+        <p class="form-note" id="formNote" role="status" aria-live="polite">Menghubungkan ke layanan konfirmasi online...</p>
       </form>
       <div class="wishes" id="wishes"><h3>Ucapan & Doa</h3><div id="wishList"></div></div>
     </section>
@@ -138,7 +138,7 @@
     </section>
 
     <footer class="footer section">
-      <p class="eyebrow">WITH LOVE</p><h2>Ani <span>&</span> Rama</h2><p>Merupakan kebahagiaan bagi kami apabila Anda berkenan hadir dan memberikan doa restu.</p><div class="small-divider">✦</div><p class="eyebrow music-caption">LAGU PENGIRING</p><div class="youtube-player-wrap"><iframe id="youtubeMusicPlayer" src="https://www.youtube.com/embed/r5RjR2eof2s?enablejsapi=1&playsinline=1&loop=1&playlist=r5RjR2eof2s&rel=0" title="Safira Inema - Ketaton Cerita" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><p class="music-note">Tekan tombol musik di kanan bawah atau putar langsung melalui pemutar video.</p><p class="copyright">© 2026 ANI & RAMA · MADE WITH LOVE</p>
+      <p class="eyebrow">WITH LOVE</p><h2>Ani <span>&</span> Rama</h2><p>Merupakan kebahagiaan bagi kami apabila Anda berkenan hadir dan memberikan doa restu.</p><div class="small-divider">✦</div><p class="copyright">© 2026 ANI & RAMA · MADE WITH LOVE</p>
     </footer>
   </main>
 
@@ -147,7 +147,16 @@
 
   <div class="lightbox" id="lightbox"><button id="closeLightbox" aria-label="Tutup">×</button><img id="lightboxImage" alt="Foto galeri"></div>
   <div class="toast" id="toast"></div>
+  <div class="youtube-audio-host" aria-hidden="true"><iframe id="youtubeMusicPlayer" src="https://www.youtube.com/embed/r5RjR2eof2s?enablejsapi=1&playsinline=1&loop=1&playlist=r5RjR2eof2s&rel=0" title="Musik undangan Ani & Rama" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Project URL dan Publishable Key Supabase untuk website undangan.
+    window.SUPABASE_CONFIG = {
+      url: "https://fwacmdcmwnlkewntowba.supabase.co",
+      anonKey: "sb_publishable_YqIQZNuvoKO0_y-gZph5Eg_hi-eKaa1"
+    };
+  </script>
   <script src="script.js"></script>
 </body>
 </html>

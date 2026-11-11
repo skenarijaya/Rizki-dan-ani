@@ -118,18 +118,39 @@ document.querySelectorAll(".copy-btn").forEach(button => {
   });
 });
 
-// RSVP demo uses localStorage in this browser only.
-// Connect a server/database (e.g. Supabase) for real multi-device submissions.
+// RSVP online menggunakan Supabase. Publishable key aman digunakan di browser
+// selama Row Level Security (RLS) dan policy tabel public.rsvp diaktifkan.
 const form = document.getElementById("rsvpForm");
 const wishList = document.getElementById("wishList");
-function getWishes() {
-  try { return JSON.parse(localStorage.getItem("javaMaroonWishes") || "[]"); }
-  catch(e) { return []; }
+const formNote = document.getElementById("formNote");
+let supabaseClient = null;
+
+try {
+  const config = window.SUPABASE_CONFIG;
+  if (window.supabase?.createClient && config?.url && config?.anonKey) {
+    supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+  }
+} catch (error) {
+  console.error("Supabase initialization error:", error);
 }
-function renderWishes() {
-  const wishes = getWishes();
+
+function setFormNote(message, isError = false) {
+  if (!formNote) return;
+  formNote.textContent = message;
+  formNote.classList.toggle("error", isError);
+}
+
+function renderWishes(wishes) {
   wishList.innerHTML = "";
-  wishes.slice().reverse().forEach(wish => {
+  if (!wishes.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty-wishes";
+    empty.textContent = "Belum ada ucapan. Jadilah yang pertama mengirim doa.";
+    wishList.appendChild(empty);
+    return;
+  }
+
+  wishes.forEach(wish => {
     const article = document.createElement("article");
     article.className = "wish";
     const name = document.createElement("strong");
@@ -140,21 +161,73 @@ function renderWishes() {
     wishList.appendChild(article);
   });
 }
-renderWishes();
-form.addEventListener("submit", e => {
-  e.preventDefault();
+
+async function loadWishes() {
+  if (!supabaseClient) {
+    setFormNote("Layanan RSVP belum dapat dihubungkan. Silakan hubungi pemilik undangan.", true);
+    renderWishes([]);
+    return;
+  }
+
+  setFormNote("Konfirmasi kehadiran terhubung secara online.");
+  const { data, error } = await supabaseClient
+    .from("rsvp")
+    .select("id, name, attendance, message, created_at")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    console.error("Gagal memuat ucapan:", error);
+    setFormNote("Belum dapat memuat ucapan. Pastikan tabel rsvp dan policy RLS sudah dibuat di Supabase.", true);
+    renderWishes([]);
+    return;
+  }
+  renderWishes(data || []);
+}
+
+loadWishes();
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!supabaseClient) {
+    showToast("Layanan RSVP belum terhubung. Coba beberapa saat lagi.");
+    return;
+  }
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalLabel = submitButton.textContent;
   const data = new FormData(form);
   const entry = {
     name: String(data.get("name") || "").trim(),
     attendance: String(data.get("attendance") || ""),
-    guests: String(data.get("guests") || "1"),
-    message: String(data.get("message") || "").trim().slice(0,500)
+    guests: Number(data.get("guests") || 1),
+    message: String(data.get("message") || "").trim().slice(0, 500)
   };
-  if (!entry.name || !entry.attendance) return showToast("Lengkapi nama dan konfirmasi kehadiran.");
-  const wishes = getWishes();
-  wishes.push(entry);
-  localStorage.setItem("javaMaroonWishes", JSON.stringify(wishes));
-  form.reset();
-  renderWishes();
-  showToast("Terima kasih! Konfirmasi tersimpan di perangkat ini.");
+
+  if (!entry.name || !entry.attendance) {
+    showToast("Lengkapi nama dan konfirmasi kehadiran.");
+    return;
+  }
+  if (!Number.isInteger(entry.guests) || entry.guests < 1 || entry.guests > 4) {
+    showToast("Jumlah tamu tidak valid.");
+    return;
+  }
+
+  submitButton.disabled = true;
+  submitButton.textContent = "MENGIRIM...";
+  try {
+    const { error } = await supabaseClient.from("rsvp").insert([entry]);
+    if (error) throw error;
+    form.reset();
+    setFormNote("Terima kasih! Konfirmasi dan ucapan Anda berhasil tersimpan online.");
+    showToast("Terima kasih! Konfirmasi berhasil dikirim.");
+    await loadWishes();
+  } catch (error) {
+    console.error("Gagal menyimpan RSVP:", error);
+    setFormNote("Konfirmasi gagal dikirim. Pastikan tabel rsvp dan policy INSERT sudah dibuat di Supabase.", true);
+    showToast("Gagal mengirim. Silakan coba lagi.");
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalLabel;
+  }
 });

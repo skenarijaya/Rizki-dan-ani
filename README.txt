@@ -16,11 +16,15 @@ Template undangan digital statis berbasis HTML, CSS, dan JavaScript. Siap untuk 
 - Countdown calendar link: sesuaikan tanggal pada tautan Google Calendar.
 
 ## Catatan penting
-- RSVP pada versi ini adalah DEMO: data disimpan di localStorage browser yang digunakan. Data tidak terkirim ke pemilik undangan dan tidak tersinkron ke perangkat lain.
-- Untuk RSVP online sungguhan, hubungkan form ke Supabase atau backend/API dan aktifkan validasi server-side serta kebijakan keamanan.
+- RSVP dan ucapan telah dihubungkan ke Supabase project `fwacmdcmwnlkewntowba`.
+- Pastikan tabel `public.rsvp` sudah dibuat dengan kolom `name`, `attendance`, `guests`, `message`, `created_at`, serta Row Level Security dan policy INSERT/SELECT sesuai panduan.
+- Publishable key digunakan di frontend; jangan pernah memasukkan `service_role` atau secret key ke website.
+- Jika data belum masuk, periksa Console browser dan kebijakan RLS pada Supabase.
 - Font dan foto contoh memerlukan koneksi internet. Ganti dengan aset berlisensi/yang Anda miliki untuk penggunaan produksi.
 - Data undangan telah diisi untuk Ani & Rama: Minggu, 22 November 2026. Akad 09.00 WIB dan resepsi 10.00 WIB.
 
 Alamat pengiriman kado belum dicantumkan, sehingga tidak ditampilkan. Barcode/QR pembayaran tidak disertakan karena belum ada file QR resmi yang diberikan.
 
-MUSIK PENGIRING: Safira Inema - Ketaton Cerita, diputar melalui YouTube IFrame Player. Pengunjung dapat memutar/jeda dengan tombol musik atau pemutar video di bagian footer. Koneksi internet diperlukan; autoplay dapat dibatasi oleh browser, sehingga pengunjung mungkin perlu menekan tombol putar.
+MUSIK PENGIRING: Safira Inema - Ketaton Cerita, diputar melalui YouTube IFrame Player. Pengunjung dapat memutar/jeda dengan tombol musik mengambang; pemutar video tidak ditampilkan di halaman. Koneksi internet diperlukan; autoplay dapat dibatasi oleh browser, sehingga pengunjung mungkin perlu menekan tombol putar.
+
+Musik: lagu YouTube diputar melalui tombol musik mengambang di kanan bawah. Bagian/pemutar video tidak ditampilkan di halaman. Pemutaran membutuhkan koneksi internet dan dapat bergantung pada izin browser/YouTube.

@@ -4,4 +4,4 @@
 /* Foto asli Ani & Rama */
 .portrait img{display:block;border:0;}
 
-.youtube-player-wrap{width:min(100%,420px);aspect-ratio:16/9;margin:18px auto 8px;border:1px solid #d4af37;padding:5px;background:#260006;box-shadow:0 14px 35px #0008}.youtube-player-wrap iframe{display:block;width:100%;height:100%;border:0}.music-caption{margin-top:20px}.music-note{font-size:11px!important;color:#cdbda8!important}
+.youtube-audio-host{position:fixed;width:200px;height:200px;left:-10000px;top:0;overflow:hidden;pointer-events:none;opacity:0}.youtube-audio-host iframe{width:200px;height:200px;border:0}
